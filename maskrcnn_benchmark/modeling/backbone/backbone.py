@@ -122,6 +122,22 @@ def build_resnet_fpn_p3p7_backbone(cfg):
     model.out_channels = out_channels
     return model
 
+@registry.BACKBONES.register("MV2-FPN")
+def build_mobilenet_v2_backbone(cfg):
+    body = mobilenet_v2.MobileNetV2(cfg)
+    in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
+    out_channels = cfg.MODEL.MOBILENET.BACKBONE_OUT_CHANNELS
+    fpn = fpn_module.FPN(
+        in_channels_list=in_channels_stage2,
+        out_channels=out_channels,
+        conv_block=conv_with_kaiming_uniform(
+            cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU
+        ),
+        top_blocks=fpn_module.LastLevelMaxPool(),
+    )
+    model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
+    model.out_channels = out_channels
+    return model
 
 def build_backbone(cfg):
     assert cfg.MODEL.BACKBONE.CONV_BODY in registry.BACKBONES, \

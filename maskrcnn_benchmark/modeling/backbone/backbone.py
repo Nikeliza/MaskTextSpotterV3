@@ -128,7 +128,12 @@ def build_mobilenet_v2_backbone(cfg):
     in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
     out_channels = cfg.MODEL.MOBILENET.BACKBONE_OUT_CHANNELS
     fpn = fpn_module.FPN(
-        in_channels_list=in_channels_stage2,
+        in_channels_list=[
+            0,
+            32,
+            96,
+            1280,
+        ],
         out_channels=out_channels,
         conv_block=conv_with_kaiming_uniform(
             cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU

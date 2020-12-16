@@ -304,6 +304,14 @@ _C.MODEL.ROI_MASK_HEAD.SOFT_MASKED_FEATURE_RATIO = 0.
 _C.MODEL.ROI_MASK_HEAD.MIX_OPTION = ""
 
 # ---------------------------------------------------------------------------- #
+# MobileNet options
+# ---------------------------------------------------------------------------- #
+_C.MODEL.MOBILENET = CN()
+_C.MODEL.MOBILENET.BACKBONE_OUT_CHANNELS = 256
+_C.MODEL.MOBILENET.OUT_CHANNELS = (114, 192, 384, 960, 1280)
+_C.MODEL.MOBILENET.FROZEN_BN = False
+
+# ---------------------------------------------------------------------------- #
 # Solver
 # ---------------------------------------------------------------------------- #
 _C.SOLVER = CN()

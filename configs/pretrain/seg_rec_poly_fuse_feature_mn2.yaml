@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "mv2_72.5.pth"
+  # WEIGHT: "mv2_72.5.pth"
   BACKBONE:
     CONV_BODY: "MV2-FPN"
   MOBILENET:

@@ -127,8 +127,8 @@ def build_resnet_fpn_backbone(cfg):
     body = mobilenet.MobileNetV2(cfg)  # resnet网络结构
     # in_channels_stage2 = cfg.MODEL.RESNETS.RES2_OUT_CHANNELS  # 256
     # out_channels = cfg.MODEL.RESNETS.BACKBONE_OUT_CHANNELS  # 256 * 4
-    in_channels_stage2 = 64
-    out_channels = 128  # 原始的是512
+    in_channels_stage2 = 256
+    out_channels =  256 # 原始的是512
     # FPN结构
     fpn = fpn_module.FPN(
         in_channels_list=[

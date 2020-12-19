@@ -310,7 +310,11 @@ _C.MODEL.MOBILENET = CN()
 _C.MODEL.MOBILENET.BACKBONE_OUT_CHANNELS = 256
 _C.MODEL.MOBILENET.OUT_CHANNELS = (114, 192, 384, 960, 1280)
 _C.MODEL.MOBILENET.FROZEN_BN = False
-
+_C.KERNEL_SIZE = 3
+_C.WIDTH_MULTIPLIER = 1
+_C.DROUPOUT_PROB = 0.2
+_C.NUM_CHANNELS = 3
+_C.DOWNSAMPLING = 32
 # ---------------------------------------------------------------------------- #
 # Solver
 # ---------------------------------------------------------------------------- #

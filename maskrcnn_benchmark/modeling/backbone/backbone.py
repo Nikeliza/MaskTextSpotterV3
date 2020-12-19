@@ -124,7 +124,7 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 
 @registry.BACKBONES.register("MV2-FPN")
 def build_resnet_fpn_backbone(cfg):
-    body = mobilenet.MobileNetV2(cfg)  # resnet网络结构
+    body = mobilenet_v2.MobileNetV2(cfg)  # resnet网络结构
     # in_channels_stage2 = cfg.MODEL.RESNETS.RES2_OUT_CHANNELS  # 256
     # out_channels = cfg.MODEL.RESNETS.BACKBONE_OUT_CHANNELS  # 256 * 4
     in_channels_stage2 = 256

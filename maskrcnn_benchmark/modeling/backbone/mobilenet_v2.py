@@ -79,6 +79,7 @@ class MobileNetV2(nn.Module):
         outputs = []
         # x = self.network(x)
         for idx, stage_name in enumerate(self.network):
+            print(idx, stage_name)
             x = stage_name(x)
             if idx in [10, 13, 16, 17]:
                 outputs.append(x)

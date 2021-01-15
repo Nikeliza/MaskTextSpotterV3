@@ -132,10 +132,10 @@ def build_resnet_fpn_backbone(cfg):
     # FPN结构
     fpn = fpn_module.FPN(
         in_channels_list=[
-            in_channels_stage2,
-            in_channels_stage2 * 2,
-            in_channels_stage2 * 4,
-            in_channels_stage2 * 8,
+            24,
+            32,
+            64,
+            1280,
         ],
         out_channels=out_channels,
         conv_block=conv_with_kaiming_uniform(

@@ -81,7 +81,7 @@ class MobileNetV2(nn.Module):
         for idx, stage_name in enumerate(self.network):
             print(idx, stage_name)
             x = stage_name(x)
-            if idx in [10, 13, 16, 17]:
+            if idx in [3, 6, 10, 18]:
                 outputs.append(x)
         return outputs
 

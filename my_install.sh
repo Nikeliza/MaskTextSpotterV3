@@ -118,6 +118,10 @@ mv total_text_labels/test_gts .
 mv total_text_labels/train_gts .
 #переименовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+cd ~/download_google_drive
+python download_gdrive.py 1jlto6HRVD3ipNkAl1lNhDbkBp7HylaqR ~/MaskTextSpotterV3/output/mixtrain/pretrained_model.pth.tar
+
+
 mkdir evaluation/lexicons/
 cd ~/download_google_drive
 python download_gdrive.py 15PAG-ok8KtJjNxP-pOp7kX_esjCpfzn5 ~/MaskTextSpotterV3/lexicon.zip

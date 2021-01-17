@@ -131,7 +131,7 @@ def build_mobilenet_backbone(cfg):
         fpn = fpn_module.FPN(
             in_channels_list=in_channels_stage2,
             out_channels=out_channels,
-            conv_block=conv_with_kaiming_uniform(cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU)
+            conv_block=conv_with_kaiming_uniform(cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU),
             top_blocks=fpn_module.LastLevelMaxPool()
         )
         model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))

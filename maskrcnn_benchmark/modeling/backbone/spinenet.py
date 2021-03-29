@@ -147,13 +147,13 @@ class Merge(nn.Module):
         return target_feat
 
 
-@BACKBONES.register_module
+#@BACKBONES.register_module
 class SpineNet(nn.Module):
     """Class to build SpineNet backbone"""
     def __init__(self,
                  arch,
                  in_channels=3,
-                 output_level=[3, 4, 5, 6, 7],
+                 output_level=[3, 4, 5, 6, 7], #[3, 4, 5, 6, 7]
                  conv_cfg=None,
                  norm_cfg=dict(type='BN', requires_grad=True),
                  zero_init_residual=True,

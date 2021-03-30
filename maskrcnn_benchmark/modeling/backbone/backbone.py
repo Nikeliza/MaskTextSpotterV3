@@ -54,6 +54,8 @@ from maskrcnn_benchmark.modeling.make_layers import conv_with_kaiming_uniform
 from . import fpn as fpn_module
 # from . import resnet
 from . import mobilenet_v2
+from . import spinenet
+
 
 @registry.BACKBONES.register("R-50-C4")
 @registry.BACKBONES.register("R-50-C5")
@@ -141,7 +143,7 @@ def build_mobilenet_backbone(cfg):
 
 @registry.BACKBONES.register("Spinenet")
 def build_mobilenet_backbone(cfg):
-    body = spinenet.SpineNet(cfg)
+    body = spinenet.SpineNet('49S')
     #in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
     #out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
     #if cfg.MODEL.RPN.USE_FPN:

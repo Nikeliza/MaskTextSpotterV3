@@ -55,7 +55,7 @@ from . import fpn as fpn_module
 # from . import resnet
 from . import mobilenet_v2
 from . import spinenet
-
+from . import mobilenet_v3
 
 @registry.BACKBONES.register("R-50-C4")
 @registry.BACKBONES.register("R-50-C5")
@@ -127,6 +127,23 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 @registry.BACKBONES.register("MobileNetV2-FPN")
 def build_mobilenet_backbone(cfg):
     body = mobilenet_v2.MobileNetV2(cfg)
+    in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
+    out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
+    if cfg.MODEL.RPN.USE_FPN:
+        fpn = fpn_module.FPN(
+            in_channels_list=in_channels_stage2,
+            out_channels=out_channels,
+            conv_block=conv_with_kaiming_uniform(cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU),
+            top_blocks=fpn_module.LastLevelMaxPool()
+        )
+        model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
+    else:
+        model = nn.Sequential(OrderedDict([("body", body)]))
+    return model
+
+@registry.BACKBONES.register("MobileNetV3-FPN")
+def build_mobilenet_backbone(cfg):
+    body = mobilenet_v3.MobileNetV3(cfg)
     in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
     out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
     if cfg.MODEL.RPN.USE_FPN:

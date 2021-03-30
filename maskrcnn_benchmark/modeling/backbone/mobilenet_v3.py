@@ -116,9 +116,9 @@ class MobileBottleneck(nn.Module):
 
 
 class MobileNetV3(nn.Module):
-    def __init__(self, n_class=1000, input_size=224, dropout=0.8, mode='small', width_mult=1.0):
+    def __init__(self, cfg, n_class=1000, input_size=224, dropout=0.8, mode='small', width_mult=1.0):
         super(MobileNetV3, self).__init__()
-        input_channel = 16
+        input_channel = 16 #32
         last_channel = 1280
         if mode == 'large':
             # refer to Table 1 in paper
@@ -163,15 +163,16 @@ class MobileNetV3(nn.Module):
         assert input_size % 32 == 0
         last_channel = make_divisible(last_channel * width_mult) if width_mult > 1.0 else last_channel
         self.features = [conv_bn(3, input_channel, 2, nlin_layer=Hswish)]
-        self.classifier = []
-
+        
         # building mobile blocks
         for k, exp, c, se, nl, s in mobile_setting:
             output_channel = make_divisible(c * width_mult)
             exp_channel = make_divisible(exp * width_mult)
             self.features.append(MobileBottleneck(input_channel, output_channel, k, s, exp_channel, se, nl))
             input_channel = output_channel
-
+        
+        self.rpn_layers = [3, 6, 10, 18] if cfg.MODEL.RPN.USE_FPN else [13]
+        
         # building last several layers
         if mode == 'large':
             last_conv = make_divisible(960 * width_mult)
@@ -195,9 +196,12 @@ class MobileNetV3(nn.Module):
         self._initialize_weights()
 
     def forward(self, x):
-        x = self.features(x)
-        x = x.mean(3).mean(2)
-        return x
+        res = []
+        for idx, m in enumerate(self.features):
+            x = m(x)
+            if idx in self.rpn_layers:
+                res.append(x)
+        return res
 
     def _initialize_weights(self):
         # weight initialization

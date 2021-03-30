@@ -2,7 +2,7 @@ MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   # WEIGHT: "mv2_72.5.pth"
   BACKBONE:
-    CONV_BODY: "MobileNetV2-FPN"
+    CONV_BODY: "MobileNetV3-FPN"
     OUT_CHANNELS: 256
     FREEZE_CONV_BODY_AT: 3
   MOBILENET:

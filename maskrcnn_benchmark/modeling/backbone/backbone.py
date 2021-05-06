@@ -142,7 +142,7 @@ def build_mobilenet_backbone(cfg):
     return model
 
 @registry.BACKBONES.register("MobileNetV3-FPN")
-def build_mobilenet_backbone(cfg):
+def build_mobilenet_v3_backbone(cfg):
     body = mobilenet_v3.MobileNetV3(cfg)
     in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
     out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
@@ -159,7 +159,7 @@ def build_mobilenet_backbone(cfg):
     return model
 
 @registry.BACKBONES.register("Spinenet")
-def build_mobilenet_backbone(cfg):
+def build_spinenet_backbone(cfg):
     body = spinenet.SpineNet('49S')
     #in_channels_stage2 = cfg.MODEL.MOBILENET.OUT_CHANNELS
     #out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS

@@ -171,7 +171,7 @@ class MobileNetV3(nn.Module):
             self.features.append(MobileBottleneck(input_channel, output_channel, k, s, exp_channel, se, nl))
             input_channel = output_channel
         
-        self.rpn_layers = [3, 6, 10, 18] if cfg.MODEL.RPN.USE_FPN else [13]
+        self.rpn_layers = [2, 5, 12, 14] if cfg.MODEL.RPN.USE_FPN else [13]
         
         # building last several layers
         if mode == 'large':

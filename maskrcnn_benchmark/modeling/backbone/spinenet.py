@@ -533,6 +533,7 @@ class Merge(nn.Module):
         assert len(inputs) == len(self.resample_ops)
         parent0_feat = self.resample_ops[0](inputs[0])
         parent1_feat = self.resample_ops[1](inputs[1])
+        print(inputs[0].shape, inputs[1].shape, parent0_feat.shape, parent1_feat.shape)
         target_feat = parent0_feat + parent1_feat
         return target_feat
 
@@ -581,17 +582,17 @@ class SpineNet(nn.Module):
 
         # Build the initial level 2 blocks.
         self.init_block1 = make_res_layer(
-            self._init_block_fn,
-            64,
-            int(FILTER_SIZE_MAP[2] * self._filter_size_scale),
-            self._block_repeats,
+            block=self._init_block_fn,
+            inplanes=64,
+            planes=int(FILTER_SIZE_MAP[2] * self._filter_size_scale),
+            num_blocks=self._block_repeats,
             conv_cfg=self.conv_cfg,
             norm_cfg=self.norm_cfg)
         self.init_block2 = make_res_layer(
-            self._init_block_fn,
-            int(FILTER_SIZE_MAP[2] * self._filter_size_scale) * 4,
-            int(FILTER_SIZE_MAP[2] * self._filter_size_scale),
-            self._block_repeats,
+            block=self._init_block_fn,
+            inplanes=int(FILTER_SIZE_MAP[2] * self._filter_size_scale) * 4,
+            planes=int(FILTER_SIZE_MAP[2] * self._filter_size_scale),
+            num_blocks=self._block_repeats,
             conv_cfg=self.conv_cfg,
             norm_cfg=self.norm_cfg)
 
@@ -616,10 +617,10 @@ class SpineNet(nn.Module):
             channels = int(FILTER_SIZE_MAP[spec.level] * self._filter_size_scale)
             in_channels = channels * 4 if spec.block_fn == Bottleneck else channels
             self.scale_permuted_blocks.append(
-                make_res_layer(spec.block_fn,
-                               in_channels,
-                               channels,
-                               self._block_repeats,
+                make_res_layer(block=spec.block_fn,
+                               inplanes=in_channels,
+                               planes=channels,
+                               num_blocks=self._block_repeats,
                                conv_cfg=self.conv_cfg,
                                norm_cfg=self.norm_cfg)
             )

@@ -174,6 +174,18 @@ def build_spinenet_backbone(cfg):
     #else:
     model = nn.Sequential(OrderedDict([("body", body)]))
     return model
+@registry.BACKBONES.register("efficientnet")
+def build_efficientnet_fpn_backbone(cfg):
+    body = EfficientNet.from_pretrained('efficientnet-b0')#cfg.MODEL.EFFICIENTNETS.NETWORK)
+    out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
+    fpn = fpn_module.FPN(
+        in_channels_list=body.get_list_features()[-5:],
+        out_channels=out_channels,
+        top_blocks=fpn_module.LastLevelMaxPool()#,
+        #use_gn=cfg.MODEL.USE_GN
+    )
+    model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
+    return model
 
 def build_backbone(cfg):
     assert cfg.MODEL.BACKBONE.CONV_BODY in registry.BACKBONES, \

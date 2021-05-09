@@ -55,6 +55,7 @@ from . import fpn as fpn_module
 # from . import resnet
 from . import mobilenet_v2
 from . import spinenet
+from . import efficientnet
 from . import mobilenet_v3
 
 @registry.BACKBONES.register("R-50-C4")
@@ -176,11 +177,12 @@ def build_spinenet_backbone(cfg):
     return model
 @registry.BACKBONES.register("efficientnet")
 def build_efficientnet_fpn_backbone(cfg):
-    body = EfficientNet.from_pretrained('efficientnet-b0')#cfg.MODEL.EFFICIENTNETS.NETWORK)
+    body = efficientnet.EfficientNet.from_name('efficientnet-b0')#cfg.MODEL.EFFICIENTNETS.NETWORK)
     out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
     fpn = fpn_module.FPN(
         in_channels_list=body.get_list_features()[-5:],
         out_channels=out_channels,
+        conv_block=conv_with_kaiming_uniform(cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU),
         top_blocks=fpn_module.LastLevelMaxPool()#,
         #use_gn=cfg.MODEL.USE_GN
     )

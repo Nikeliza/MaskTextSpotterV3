@@ -144,7 +144,10 @@ class Merge(nn.Module):
         assert len(inputs) == len(self.resample_ops)
         parent0_feat = self.resample_ops[0](inputs[0])
         parent1_feat = self.resample_ops[1](inputs[1])
-        target_feat = parent0_feat + parent1_feat
+        parent0_feat_clone = parent0_feat.detach().clone()
+        parent0_feat_clone.resize_(parent1_feat.shape)
+        #print(inputs[0].shape, inputs[1].shape, parent0_feat.shape, parent1_feat.shape, parent0_feat_clone.shape)
+        target_feat = parent0_feat_clone + parent1_feat#parent0_feat + parent1_feat
         return target_feat
 
 
@@ -249,9 +252,13 @@ class SpineNet(nn.Module):
                     constant_init(m.norm2, 0)
 
     def forward(self, input):
+        #print(input.shape)
         feat = self.maxpool(self.conv1(input))
+        #print(feat.shape)
         feat1 = self.init_block1(feat)
+        #print(feat1.shape)
         feat2 = self.init_block2(feat1)
+        #print(feat2.shape)
         block_feats = [feat1, feat2]
         output_feat = {}
         num_outgoing_connections = [0, 0]
@@ -273,5 +280,6 @@ class SpineNet(nn.Module):
                 num_outgoing_connections[feat_idx] += 1
             if spec.is_output:
                 output_feat[spec.level] = target_feat
-
-        return [self.endpoint_convs[str(level)](output_feat[level]) for level in self.output_level]
+        a = [self.endpoint_convs[str(level)](output_feat[level]) for level in self.output_level]
+        #print([i.shape for i in a])
+        return a

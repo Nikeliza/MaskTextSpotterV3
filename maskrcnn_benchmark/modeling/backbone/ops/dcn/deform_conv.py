@@ -10,8 +10,8 @@ from torch.nn.modules.utils import _pair, _single
 #from mmdet.utils import print_log
 from .logger_mmdet import print_log
 #from . import deform_conv_cuda
-from maskrcnn_benchmark._C import deform_conv_cuda
-
+#from maskrcnn_benchmark._C import deform_conv_cuda
+from maskrcnn_benchmark import _C
 class DeformConvFunction(Function):
 
     @staticmethod

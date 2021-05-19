@@ -30,7 +30,7 @@ conda create --name masktextspotter -y python=3.8
   pip install ninja yacs cython matplotlib tqdm opencv-python shapely scipy tensorboardX pyclipper Polygon3 editdistance 
 
   # install PyTorch
-
+pip install mmcv-full
 
 conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 
@@ -45,7 +45,7 @@ conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 
   # install apex
   cd $INSTALL_DIR
-  git clone https://github.com/NVIDIA/apex.git
+  git clone https://github.com/Nikeliza/apex.git
   cd apex
   python setup.py install --cuda_ext --cpp_ext
 
@@ -94,8 +94,8 @@ cd ~/download_google_drive
 python download_gdrive.py 1pCmL5iZuVpLI1q32xvQMj-4b6R8znlkE ~/MaskTextSpotterV3/datasets/synthtext/label.tar.gz
 cd ~/MaskTextSpotterV3/datasets/synthtext
 tar xvzf label.tar.gz
-mv SynthText_GT_E2E train_gt
-find ~/MaskTextSpotterV3/datasets/synthtext/train_images -type f >> ../train_list.txt
+find ~/MaskTextSpotterV3/datasets/synthtext/train_images -type f >> ./train_list.txt
+cp -r SynthText_GT_E2E/* train_images
 
 cd ~/download_google_drive
 python download_gdrive.py 1BpE2GEFF7Ay7jPqgaeHxMmlXvM-1Es5_ ~/MaskTextSpotterV3/datasets/scut.zip

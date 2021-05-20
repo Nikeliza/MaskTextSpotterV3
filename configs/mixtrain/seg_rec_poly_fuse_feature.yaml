@@ -1,10 +1,17 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  # WEIGHT: './output/path-to-pretrain-model' # for training
-  WEIGHT: './output/mixtrain/trained_model.pth' # for testing
+  WEIGHT: './output/pretrain/mode_0095000.pth' # for training
+  # WEIGHT: './output/mixtrain/trained_model.pth' # for testing
   BACKBONE:
-    CONV_BODY: "R-50-FPN"
+    # CONV_BODY: "R-50-FPN"
+    CONV_BODY: "MobileNetV3-FPN"
+    # CONV_BODY: "MobileNetV2-FPN"
+    # CONV_BODY: "efficientnet"
+    # CONV_BODY: "Spinenet"
     OUT_CHANNELS: 256
+  MOBILENET:
+    OUT_CHANNELS: (24, 40, 112, 160)
+    # OUT_CHANNELS: (24, 32, 64, 1280)
   RESNETS:
     BACKBONE_OUT_CHANNELS: 256
   RPN:
@@ -26,7 +33,7 @@ MODEL:
     EXPAND_RATIO: 3.0
   ROI_HEADS:
     USE_FPN: True
-    BATCH_SIZE_PER_IMAGE: 512
+    BATCH_SIZE_PER_IMAGE: 128
   ROI_BOX_HEAD:
     POOLER_RESOLUTION: 7
     POOLER_SCALES: (0.25,)
@@ -65,8 +72,8 @@ DATASETS:
   # TRAIN: ("synthtext_train",)
   TRAIN: ("synthtext_train","icdar_2013_train","icdar_2015_train","scut-eng-char_train","total_text_train")
   RATIOS: [0.25,0.25,0.25,0.125,0.125]
-  # TEST: ("icdar_2015_test",)
-  TEST: ("total_text_test",)
+  TEST: ("icdar_2015_test",)
+  # TEST: ("total_text_test",)
   # TEST: ("rotated_ic13_test_45",)
   AUG: True
   IGNORE_DIFFICULT: True
@@ -76,7 +83,7 @@ DATALOADER:
   NUM_WORKERS: 4
   ASPECT_RATIO_GROUPING: False
 SOLVER:
-  BASE_LR: 0.002 #0.02
+  BASE_LR: 0.001 #0.02
   WARMUP_FACTOR: 0.1
   WEIGHT_DECAY: 0.0001
   STEPS: (100000, 160000)

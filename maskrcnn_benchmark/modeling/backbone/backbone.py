@@ -189,6 +189,37 @@ def build_efficientnet_fpn_backbone(cfg):
     model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
     return model
 
+@registry.BACKBONES.register("DETNAS-COCO-FPN-300M")
+@registry.BACKBONES.register("DETNAS-COCO-FPN-1.3G")
+@registry.BACKBONES.register("DETNAS-COCO-FPN-3.8G")
+@registry.BACKBONES.register("DETNAS-COCO-FPN-300M-search")
+@registry.BACKBONES.register("DETNAS-COCO-FPN-1.3G-search")
+def build_detnasnet_fpn_backbone(cfg):
+    body = detnasnet.ShuffleNetV2DetNAS(cfg)
+    out_channels = cfg.MODEL.RESNETS.BACKBONE_OUT_CHANNELS
+    if '300M' in cfg.MODEL.BACKBONE.CONV_BODY:
+        in_channels_list = [64, 160, 320, 640,]
+    elif '1.3G' in cfg.MODEL.BACKBONE.CONV_BODY:
+        in_channels_list = [96, 240, 480, 960,]
+    elif '3.8G' in cfg.MODEL.BACKBONE.CONV_BODY:
+        in_channels_list = [172, 432, 864, 1728,]
+    else:
+        raise ValueError("Wrong backbone size.")
+
+    fpn = fpn_module.FPN(
+        in_channels_list= in_channels_list,
+        out_channels=out_channels,
+        conv_block=conv_with_kaiming_uniform(
+            cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU, cfg.MODEL.FPN.USE_SYNCBN
+        ),
+        top_blocks=fpn_module.LastLevelMaxPool(),
+    )
+    if 'search' in cfg.MODEL.BACKBONE.CONV_BODY:
+        return body, fpn
+    model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
+    model.out_channels = out_channels
+    return model
+
 def build_backbone(cfg):
     assert cfg.MODEL.BACKBONE.CONV_BODY in registry.BACKBONES, \
         "cfg.MODEL.BACKBONE.CONV_BODY: {} are not registered in registry".format(

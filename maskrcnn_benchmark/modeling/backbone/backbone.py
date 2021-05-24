@@ -57,6 +57,7 @@ from . import mobilenet_v2
 from . import spinenet
 from . import efficientnet
 from . import mobilenet_v3
+from . import detnasnet
 
 @registry.BACKBONES.register("R-50-C4")
 @registry.BACKBONES.register("R-50-C5")

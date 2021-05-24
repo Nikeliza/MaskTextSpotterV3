@@ -116,6 +116,7 @@ _C.MODEL.BACKBONE.CONV_BODY = "R-50-C4"
 # Add StopGrad at a specified stage so the bottom layers are frozen
 _C.MODEL.BACKBONE.FREEZE_CONV_BODY_AT = 2
 _C.MODEL.BACKBONE.OUT_CHANNELS = 256 * 4
+_C.MODEL.BACKBONE.CHANNEL_SHUFFLE_METHOD = 2
 
 # ---------------------------------------------------------------------------- #
 # ResNe[X]t options (ResNets = {ResNet, ResNeXt}
@@ -157,6 +158,7 @@ _C.MODEL.RESNETS.LAYERS = (3, 4, 6, 3)
 _C.MODEL.FPN = CN()
 _C.MODEL.FPN.USE_GN = False
 _C.MODEL.FPN.USE_RELU = False
+_C.MODEL.FPN.USE_SYNCBN = False
 
 # ---------------------------------------------------------------------------- #
 # RPN options

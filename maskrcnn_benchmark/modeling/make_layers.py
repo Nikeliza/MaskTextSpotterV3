@@ -9,6 +9,7 @@ from torch.nn import functional as F
 from maskrcnn_benchmark.config import cfg
 from maskrcnn_benchmark.layers import Conv2d
 from maskrcnn_benchmark.modeling.poolers import Pooler
+from maskrcnn_benchmark.pytorch_distributed_syncbn.syncbn import DistributedSyncBN
 
 
 def get_group_gn(dim, dim_per_gp, num_groups):

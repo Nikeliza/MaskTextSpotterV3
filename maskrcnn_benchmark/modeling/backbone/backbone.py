@@ -54,7 +54,7 @@ from maskrcnn_benchmark.modeling.make_layers import conv_with_kaiming_uniform
 from . import fpn as fpn_module
 # from . import resnet
 from . import mobilenet_v2
-from . import spinenet
+#from . import spinenet
 from . import efficientnet
 from . import mobilenet_v3
 from . import detnasnet
@@ -159,7 +159,7 @@ def build_mobilenet_v3_backbone(cfg):
     else:
         model = nn.Sequential(OrderedDict([("body", body)]))
     return model
-
+'''
 @registry.BACKBONES.register("Spinenet")
 def build_spinenet_backbone(cfg):
     body = spinenet.SpineNet('49')
@@ -175,7 +175,7 @@ def build_spinenet_backbone(cfg):
         #model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
     #else:
     model = nn.Sequential(OrderedDict([("body", body)]))
-    return model
+    return model'''
 @registry.BACKBONES.register("efficientnet")
 def build_efficientnet_fpn_backbone(cfg):
     body = efficientnet.EfficientNet.from_name('efficientnet-b0')#cfg.MODEL.EFFICIENTNETS.NETWORK)

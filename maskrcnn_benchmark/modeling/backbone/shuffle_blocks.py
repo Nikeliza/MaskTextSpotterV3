@@ -3,7 +3,7 @@ import torch.nn as nn
 from maskrcnn_benchmark.config import cfg
 #from maskrcnn_benchmark.pytorch_distributed_syncbn.syncbn import DistributedSyncBN
 
-batch_norm = #DistributedSyncBN
+batch_norm = nn.BatchNorm2d#DistributedSyncBN
 
 blocks_key = [
     'shufflenet_3x3',

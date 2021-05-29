@@ -120,6 +120,7 @@ class MobileNetV3(nn.Module):
         super(MobileNetV3, self).__init__()
         input_channel = 16 #32
         last_channel = 1280
+        mode = 'small'
         if mode == 'large':
             # refer to Table 1 in paper
             mobile_setting = [
@@ -170,8 +171,8 @@ class MobileNetV3(nn.Module):
             exp_channel = make_divisible(exp * width_mult)
             self.features.append(MobileBottleneck(input_channel, output_channel, k, s, exp_channel, se, nl))
             input_channel = output_channel
-        
-        self.rpn_layers = [2, 5, 12, 14] if cfg.MODEL.RPN.USE_FPN else [13]
+        #[2, 5, 12, 14]
+        self.rpn_layers = [2, 5, 7, 10] if cfg.MODEL.RPN.USE_FPN else [13]
         
         # building last several layers
         if mode == 'large':

@@ -9,7 +9,7 @@ from torch.nn import functional as F
 from maskrcnn_benchmark.config import cfg
 from maskrcnn_benchmark.layers import Conv2d
 from maskrcnn_benchmark.modeling.poolers import Pooler
-from maskrcnn_benchmark.pytorch_distributed_syncbn.syncbn import DistributedSyncBN
+#from maskrcnn_benchmark.pytorch_distributed_syncbn.syncbn import DistributedSyncBN
 
 
 def get_group_gn(dim, dim_per_gp, num_groups):
@@ -112,9 +112,9 @@ def conv_with_kaiming_uniform(use_gn=False, use_relu=False, use_syncbn=False):
         if not use_gn:
             nn.init.constant_(conv.bias, 0)
         module = [conv,]
-        if use_syncbn:
-            module.append(DistributedSyncBN(out_channels))
-        elif use_gn:
+        #if use_syncbn:
+            #module.append(DistributedSyncBN(out_channels))
+        if use_gn:
             module.append(group_norm(out_channels))
         if use_relu:
             module.append(nn.ReLU(inplace=True))

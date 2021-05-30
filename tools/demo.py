@@ -213,7 +213,7 @@ class TextDemo(object):
 
 def main(args):
     # update the config options with the config file
-    cfg.merge_from_file(args.config_file)
+    cfg.merge_from_file(args['config_file'])
     # manual override some options
     # cfg.merge_from_list(["MODEL.DEVICE", "cpu"])
 
@@ -225,10 +225,10 @@ def main(args):
     )
     # load image and then run prediction
     
-    image = cv2.imread(args.image_path)
+    image = cv2.imread(args['image_path'])
     result_polygons, result_words = text_demo.run_on_opencv_image(image)
     text_demo.visualization(image, result_polygons, result_words)
-    cv2.imwrite(args.visu_path, image)
+    cv2.imwrite(args['visu_path'], image)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='parameters for demo')
@@ -236,4 +236,9 @@ if __name__ == "__main__":
     parser.add_argument("--image_path", type=str, default='./demo_images/demo.jpg')
     parser.add_argument("--visu_path", type=str, default='./demo_images/demo_results.jpg')
     args = parser.parse_args()
-    main(args)
+    for i in os.listdir('./demo_images/'):
+      args1 = {}
+      args1['config_file'] = args.config_file
+      args1['image_path'] = f'./demo_images/{i}'
+      args1['visu_path'] = f'./demo_images/{i}_res.jpg'
+      main(args1)

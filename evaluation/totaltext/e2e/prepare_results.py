@@ -132,8 +132,9 @@ def test_single(results_dir,lexicon_type=3,cache_dir='./cache_dir',score_det=0.5
             line=line.strip()
             lexicon.append(line)
 
-    for res_file in glob.glob("*.txt"):
-        result_path = os.path.join(results_dir,res_file)
+    for result_path in glob.glob(results_dir + "*.txt"):
+        #result_path = os.path.join(results_dir,res_file)
+        res_file = result_path.split('/')[-1]
         if os.path.isfile(result_path):
             with open(result_path,'r') as f:
                 dt_lines = [a.strip() for a in f.readlines()]
@@ -228,7 +229,11 @@ def find_match_word(rec_str, pairs, scores_numpy, use_ed=True, weighted_ed=False
 
 
 def prepare_results_for_evaluation(results_dir, use_lexicon, cache_dir, score_det, score_rec, score_rec_seq):
+  
     if not os.path.isdir(cache_dir):
+
         os.mkdir(cache_dir)
+
     result_path = test_single(results_dir,score_det=score_det,score_rec=score_rec,score_rec_seq=score_rec_seq,overlap=0.2,cache_dir=cache_dir,lexicon_type=2, use_lexicon=use_lexicon, weighted_ed=True, use_seq=True, use_char=True, mix=True)
+
     return result_path

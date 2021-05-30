@@ -434,13 +434,13 @@ if __name__=='__main__':
     score_rec_seq: score of the sequence recognition branch
     lexicon_type: 1 for generic; 2 for weak; 3 for strong
     '''
-    results_dir = '../../../output/mixtrain/inference/total_text_test/model_0250000_1000_results/'
+    results_dir = '../../../output/mixtrain/inference/total_text_test/model_0020000_1000_results/'
     score_det = 0.05
     score_rec = 0.5
-    use_lexicon = False
-    score_rec_seq = 0.9
-    # use_lexicon = True
-    # score_rec_seq = 0.8
+    #use_lexicon = False
+    #score_rec_seq = 0.9
+    use_lexicon = True
+    score_rec_seq = 0.8
     evaluate_result_path = prepare_results_for_evaluation(results_dir, 
         use_lexicon=use_lexicon, cache_dir='./cache_files', 
         score_det=score_det, score_rec=score_rec, score_rec_seq=score_rec_seq)

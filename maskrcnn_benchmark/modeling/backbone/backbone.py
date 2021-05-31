@@ -178,7 +178,7 @@ def build_spinenet_backbone(cfg):
     return model'''
 @registry.BACKBONES.register("efficientnet")
 def build_efficientnet_fpn_backbone(cfg):
-    body = efficientnet.EfficientNet.from_name('efficientnet-b7')#cfg.MODEL.EFFICIENTNETS.NETWORK)
+    body = efficientnet.EfficientNet.from_name('efficientnet-b3')#cfg.MODEL.EFFICIENTNETS.NETWORK)
     out_channels = cfg.MODEL.BACKBONE.OUT_CHANNELS
     fpn = fpn_module.FPN(
         in_channels_list=body.get_list_features()[-5:],

@@ -53,35 +53,40 @@ class GeneralizedRCNN(nn.Module):
         """
         if self.training and targets is None:
             raise ValueError("In training mode, targets should be passed")
-        # torch.cuda.synchronize()
-        # start_time = time.time()
+        torch.cuda.synchronize()
+        start_time = time.time()
         images = to_image_list(images)
-        # torch.cuda.synchronize()
-        # end_time = time.time()
-        # print('image load time:', end_time - start_time)
-        # torch.cuda.synchronize()
-        # start_time = time.time()
+        torch.cuda.synchronize()
+        end_time = time.time()
+        print('image load time:', end_time - start_time)
+        torch.cuda.synchronize()
+        start_time = time.time()
         features = self.backbone(images.tensors)
-        # torch.cuda.synchronize()
-        # end_time = time.time()
-        # print('backbone time:', end_time - start_time)
+        torch.cuda.synchronize()
+        end_time = time.time()
+        print('backbone time:', end_time - start_time)
         if self.cfg.MODEL.SEG_ON and not self.training:
-            # torch.cuda.synchronize()
-            # start_time = time.time()
+            torch.cuda.synchronize()
+            start_time = time.time()
             (proposals, seg_results), fuse_feature = self.proposal(images, features, targets)
-            # torch.cuda.synchronize()
-            # end_time = time.time()
-            # print('seg time:', end_time - start_time)
+            torch.cuda.synchronize()
+            end_time = time.time()
+            print('seg time:', end_time - start_time)
         else:
             if self.cfg.MODEL.SEG_ON:
                 (proposals, proposal_losses), fuse_feature = self.proposal(images, features, targets)
             else:
                 proposals, proposal_losses = self.proposal(images, features, targets)
         if self.roi_heads is not None:
+            torch.cuda.synchronize()
+            start_time = time.time()
             if self.cfg.MODEL.SEG_ON and self.cfg.MODEL.SEG.USE_FUSE_FEATURE:
                 x, result, detector_losses = self.roi_heads(fuse_feature, proposals, targets)
             else:
                 x, result, detector_losses = self.roi_heads(features, proposals, targets)
+            torch.cuda.synchronize()
+            end_time = time.time()
+            print('roi_heads time:', end_time - start_time)
         else:
             # RPN-only models don't have roi_heads
             # x = features
